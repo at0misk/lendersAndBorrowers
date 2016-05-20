@@ -1,0 +1,58 @@
+<h3>Name: <%= @user.first_name %> <%= @user.last_name %></h3>
+<h3>Account Balance: $<%= @user.balance %></h3>
+<h3>List of people in need of help:</h3>
+<table>
+	<thead>
+		<tr>
+			<td>Name</td>
+			<td>Need Money For</td>
+			<td>Reason for Loan</td>
+			<td>Ammount Needed</td>
+			<td>Ammount Raised</td>
+			<td>Action</td>
+		</tr>
+	</thead>
+	<tbody>
+	<% @inNeed.each do |n| %>
+	<tr>
+		<td><%= n.first_name %> <%= n.last_name %></td>
+		<td><%= n.reason %></td>
+		<td><%= n.description %></td>
+		<td>$<%= n.request %></td>
+		<td>$<%= n.balance %></td>
+		<td><form action="/lend" method="post">
+			<input type="hidden" name="id" value="<%= n.id %>">
+			<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+			<input type="number" name="ammount" value="25">
+			<input type="submit" value="Lend">
+			</form>
+		</td>
+	</tr>
+		<% end %>
+	</tbody>
+</table>
+<h3>List of People you lend money to:</h3>
+<table>
+	<thead>
+		<tr>
+			<td>Name</td>
+			<td>Need Money For</td>
+			<td>Reason for Loan</td>
+			<td>Ammount Needed</td>
+			<td>Ammount Raised</td>
+			<td>Ammount Lent</td>
+		</tr>
+	</thead>
+	<tbody>
+	<% @lentTo.each do |n| %>
+	<tr>
+		<td><%= n.borrower.first_name %> <%= n.borrower.last_name %></td>
+		<td><%= n.borrower.reason %></td>
+		<td><%= n.borrower.description %></td>
+		<td><%= n.borrower.request %></td>
+		<td>$<%= n.borrower.balance %></td>
+		<td>$<%= n.ammount %></td>
+	</tr>
+		<% end %>
+	</tbody>
+</table>
